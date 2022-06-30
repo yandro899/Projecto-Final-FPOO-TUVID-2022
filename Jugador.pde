@@ -41,19 +41,19 @@ class Jugador extends Persona {
     if (keyPressed) {
       switch (key) {
         case MOV_UP:
-          this.posicion.add(0, -this.velocidad);
+          this.posicion.add(0, -this.magVelocidad);
           if (this.posicion.y<0) this.posicion.y = 0;
           break;
         case MOV_DOWN:
-          this.posicion.add(0, this.velocidad);
+          this.posicion.add(0, this.magVelocidad);
           if (this.posicion.y>height) this.posicion.y = height;
           break;
         case MOV_LEFT:
-          this.posicion.add(-this.velocidad, 0);
+          this.posicion.add(-this.magVelocidad, 0);
           if (this.posicion.x<0) this.posicion.x = 0;
           break;
         case MOV_RIGHT:
-          this.posicion.add(this.velocidad, 0);
+          this.posicion.add(this.magVelocidad, 0);
           if (this.posicion.x>width) this.posicion.x = width;
       }
     }

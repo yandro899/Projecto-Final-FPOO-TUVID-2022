@@ -1,7 +1,7 @@
 abstract class Persona extends GameObject {
   protected boolean isPlayer;
   protected int vida;
-  protected int velocidad;
+  protected int magVelocidad;
   protected int alto;
   protected int ancho;
   protected Nivel onNivel;
@@ -10,7 +10,7 @@ abstract class Persona extends GameObject {
   public Persona(float x, float y, int vida, int velocidad, int alto, int ancho, Nivel nivel) {
     super(x, y);
     this.vida = vida;
-    this.velocidad = velocidad;
+    this.magVelocidad = velocidad;
     this.alto = alto;
     this.ancho = ancho;
     this.onNivel = nivel;
@@ -31,7 +31,7 @@ abstract class Persona extends GameObject {
   }
   
   public int getVelocidad() {
-    return this.velocidad;
+    return this.magVelocidad;
   }
   
   public RectCollider getCollider() {
@@ -51,7 +51,7 @@ abstract class Persona extends GameObject {
   }
   
   public void setVelocidad(int velocidad) {
-    this.velocidad = velocidad;
+    this.magVelocidad = velocidad;
   }
   
   public void setNivel(Nivel nivel) {

@@ -1,25 +1,35 @@
+/**
+Clase que se encarga del mapeado del nivel
+Puede tener uno o varios enemigos y obstaculos
+*/
+
 class Nivel extends GameObject {
-  private int numNivel;
-  private SpriteRenderer sprite;
-  private RectCollider zonaJugable;
-  private Jugador jugador;
-  private ArrayList<Enemigo> enemigos;
+  private int numNivel;                 // Numero nivel
+  private SpriteRenderer sprite;        // Dibujo del nivel
+  private RectCollider zonaJugable;     // Indica la zona de juego
+  private Jugador jugador;              // Puntero al jugador
+  private ArrayList<Enemigo> enemigos;  // Enemigos dentro del nivel
   
-  public Nivel(int nivel, String spriteStr, Jugador jugador, ArrayList<Enemigo> enemigos) {
+  /** Contructor parametrizado */
+  public Nivel(int nivel, String spriteStr, Jugador jugador) {
     this.numNivel = nivel;
     this.sprite = new SpriteRenderer(spriteStr, width, height, width/2, height/2);
     this.zonaJugable = new RectCollider(this.posicion.x, this.posicion.y, height, width, true);
     this.jugador = jugador;
-    this.enemigos = enemigos;
+    this.enemigos = new ArrayList<Enemigo>();
   }
   
+  // Dibuja el nivel y los enemigos dentro de el (si estan vivos)
   public void display() {
     if(this.sprite.isSpriteCharged()) this.sprite.displaySprite();
     else background(200);
+    
+    // Si no hay enemigos en el nivel, el jugador gano el nivel.
     if (this.enemigos.isEmpty()) estadoJuego = MaquinaEstados.ESTADO_GANADO;
     
-    //for (int i=0; i<enemigos.size(); i++) 
+    // Dibuja cada enemigo en pantalla
     for (int i = enemigos.size()-1; i>=0; i--) {
+      // Si un enemigo murió, se lo elimina del nivel
       if (enemigos.get(i).isDead()) {
         enemigos.remove(i);
         continue;
@@ -30,6 +40,13 @@ class Nivel extends GameObject {
   }
   
   /** Metodos Accesores */
+  public void addEnemigo(Enemigo enemigo, PVector[] puntos) {
+    this.enemigos.add(enemigo);
+    for (int i=0; i<puntos.length; i++) {
+      this.enemigos.get(this.enemigos.size()-1).addRecorrido(puntos[i]);
+    }
+  }
+  
   public RectCollider getZonaJugable() {
     return this.zonaJugable;
   }

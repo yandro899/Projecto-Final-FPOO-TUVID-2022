@@ -6,10 +6,12 @@ private Nivel nivel1;
 private Jugador jugador;
 private Interfaz interfaz;
 private int estadoJuego;
+private int nivelActual;
 
 void setup() {
   size(600, 600);
   estadoJuego = MaquinaEstados.ESTADO_INICIO;
+  nivelActual = 1;
 }
 
 void draw() {
@@ -25,28 +27,44 @@ void draw() {
       interfaz.display();
       break;
     case MaquinaEstados.ESTADO_GANADO:
-      nivel1 = null;
-      jugador = null;
-      interfaz = null;
-      background(0);
+      limpiarPantalla();
+      nivelActual++;
       text("GANASTEEEEEEE", width/2, height/2);
       break;
     case MaquinaEstados.ESTADO_PERDIDO:
-      background(0);
+      limpiarPantalla();
       text("PERDISTE BOBO", width/2, height/2);
       break;
   }
 }
 
 void inicio() {
-  ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
-  jugador = new Jugador(3, 7, null);
-  nivel1 = new Nivel(1, "/images/bg/grass.jpg", jugador, enemigos);
-  enemigos.add(new SoldadoNormal(500, 500, nivel1));
-  enemigos.add(new SoldadoNormal(200, 200, nivel1));
-  enemigos.add(new SoldadoNormal(200, 500, nivel1));
-  jugador.setNivel(nivel1);
+  // Se crea al jugador
+  jugador = new Jugador(5, 7, null);
+  
+  // Dependiendo el nivel en curso, se diubuja e instancia en pantalla
+  // su nivel correspondiente y tambien sus enemigos y obstaculos.
+  switch (nivelActual) {
+    case 1:
+      nivel1 = new Nivel(1, "/images/bg/grass.jpg", jugador);
+      PVector[] puntos = {new PVector(500,500), new PVector(500,100)};
+      nivel1.addEnemigo(new SoldadoNormal(400, 500, nivel1), puntos);
+      PVector[] puntos2 = {new PVector(100,500), new PVector(100,100)};
+      nivel1.addEnemigo(new SoldadoNormal(200, 200, nivel1), puntos2);
+      jugador.setNivel(nivel1);
+    break;
+  }
+  
+  // Dibuja la interfaz en pantalla
   interfaz = new Interfaz();
+}
+
+// Libera los recursos de lo que no se va a usar
+void limpiarPantalla() {
+  nivel1 = null;
+  jugador = null;
+  interfaz = null;
+  background(0);
 }
 
 void keyPressed() {
@@ -55,7 +73,7 @@ void keyPressed() {
     estadoJuego = MaquinaEstados.ESTADO_JUGANDO;
     inicio();
   }
-  if (estadoJuego == MaquinaEstados.ESTADO_GANADO) {
+  if (estadoJuego == MaquinaEstados.ESTADO_GANADO || estadoJuego == MaquinaEstados.ESTADO_PERDIDO) {
     exit();
   }
 }

@@ -73,6 +73,7 @@ class Bala extends GameObject {
     
     //BUG: disparar desde el jugador (poner la mira EN el jugador) hace que las balas esten quietas.
     //CAUSA: Vector direccion nulo
+    //SOLUCION: Cuando el vector sea de magnitud nula, el disparo tiene posicion aleatoria.
     // Las balas se disparan a la direccion que determina la ubicacion del jugador y su mira.
     // Esto se logra con resta de vectores.
     this.velocidad = this.armaDisparada.getPortador().direccionDisparo().mult(this.armaDisparada.getVelocidadBalas());
