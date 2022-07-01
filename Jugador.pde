@@ -1,14 +1,20 @@
+/** Clase Jugador:
+Es la clase de la que el jugador tiene el control.
+*/
+
 class Jugador extends Persona {
-  private int puntaje;
-  private ArrayList<Arma> arsenal;
-  private int armaEnUso;
-  private PVector mira;
+  private int puntaje;              // Puntaje total acumulado
+  private ArrayList<Arma> arsenal;  // Arsenal de armas de las que el jugador dispone
+  private int armaEnUso;            // Arma que el jugador esta usando actualmente
+  private PVector mira;             // Mira del jugador (dependiente del mouse)
   
+  // Controles de movimiento
   public static final char MOV_UP = 'w';
   public static final char MOV_DOWN ='s';
   public static final char MOV_LEFT = 'a';
   public static final char MOV_RIGHT= 'd';
   
+  /** Constructor parametrizado */
   public Jugador(int vida, int velocidad, Nivel nivel) {
     super(width/2, height/2, vida, velocidad, 30, 10, nivel);
     this.arsenal = new ArrayList<Arma>();
@@ -16,12 +22,15 @@ class Jugador extends Persona {
     this.arsenal.add(new Pistola(this));
     this.armaEnUso = 0;
     this.isPlayer = true;
+    this.puntaje = 0;
   }
   
+  /** Dibuja el jugador (y la mira) en pantalla */
   public void display() {
     rectMode(CENTER);
     rect(this.posicion.x, this.posicion.y, this.ancho, this.alto);
     
+    // Dibujar la mira
     this.mira = new PVector(mouseX, mouseY);
     noFill();
     stroke(#ff0000);
@@ -37,6 +46,7 @@ class Jugador extends Persona {
   }
   
   // TODO: Pulir movimiento
+  /** Movimiento del jugador */
   public void move() { 
     if (keyPressed) {
       switch (key) {
@@ -61,24 +71,38 @@ class Jugador extends Persona {
     this.collider.setPosicion(this.posicion.x, this.posicion.y);
   }
   
+  /** Accion de disparo del jugador */
   public void shoot() {
+    // POLIMORFISMO
     Arma armaSeleccionada = seleccionarArma();
     armaSeleccionada.shootGun();
   }
   
+  /** Selecciona el arma */
   public Arma seleccionarArma() {
     return this.arsenal.get(this.armaEnUso);
   }
   
+  /** Entrega el vector direccion del disparo */
   public PVector direccionDisparo() {
     return this.mira.sub(this.posicion).normalize();
   }
   
+  /** El jugador recibió daño */
   public void damage(int dano) {
     this.vida -= dano;
     if (this.vida <= 0) {
       estadoJuego = MaquinaEstados.ESTADO_PERDIDO;
     }
+  }
+  
+  /** Metodos accesores */
+  public int getPuntaje() {
+    return this.puntaje;
+  }
+  
+  public void incPuntaje(int puntaje) {
+    this.puntaje += puntaje;
   }
   
 }

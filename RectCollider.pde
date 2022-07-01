@@ -1,8 +1,14 @@
+/** Clase RectCollider:
+Clase collider rectangular.
+Similar a su equivalente redondo, CircleCollider
+*/
+
 class RectCollider extends GameObject{
-  private float alto;
-  private float ancho;
-  private boolean collideOn;
+  private float alto;          // Alto del collider
+  private float ancho;         // Ancho del collider
+  private boolean collideOn;   // Indica si las colisiones estan activadas
   
+  /** Constructor paramentrizado */
   public RectCollider(float x, float y, float alto, float ancho, boolean active) {
     super(x, y);
     this.alto = alto;
@@ -10,6 +16,7 @@ class RectCollider extends GameObject{
     this.collideOn = active;
   }
   
+  /** Indica si hay colision con otro objeto de la misma clase */
   public boolean collideWith(RectCollider collider) {
     if (!this.collideOn) return false;
     if (this.posicion.x-ancho/2 > collider.getPosicion().x-getAncho()/2) return false;
@@ -19,6 +26,7 @@ class RectCollider extends GameObject{
     return true;
   }
   
+  /** Indica si hay colision con otro objeto de la clase CircleCollider */
   public boolean collideWith(CircleCollider circle){
     if (!this.collideOn) return false;
     
@@ -45,6 +53,7 @@ class RectCollider extends GameObject{
     else return false;
   }
   
+  /** Dibuja la colision en pantalla (solo pruebas) */
   public void display() {
     fill(#ffffff);
     rect(this.posicion.x, this.posicion.y, this.ancho, this.alto);

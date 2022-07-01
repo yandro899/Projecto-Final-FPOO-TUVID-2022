@@ -25,7 +25,10 @@ class Nivel extends GameObject {
     else background(200);
     
     // Si no hay enemigos en el nivel, el jugador gano el nivel.
-    if (this.enemigos.isEmpty()) estadoJuego = MaquinaEstados.ESTADO_GANADO;
+    if (this.enemigos.isEmpty()) {
+      estadoJuego = MaquinaEstados.ESTADO_GANADO;
+      nivelActual++;
+    }
     
     // Dibuja cada enemigo en pantalla
     for (int i = enemigos.size()-1; i>=0; i--) {

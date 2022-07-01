@@ -1,12 +1,18 @@
+/** Clase Persona:
+Clase de la que heredan los enemigos y el jugador.
+Ambos se mueven, disparan y mueren
+*/
+
 abstract class Persona extends GameObject {
-  protected boolean isPlayer;
-  protected int vida;
-  protected int magVelocidad;
-  protected int alto;
-  protected int ancho;
-  protected Nivel onNivel;
-  protected RectCollider collider;
+  protected boolean isPlayer;          // Este objeto es el jugador?
+  protected int vida;                  // Vida de la entidad
+  protected int magVelocidad;          // Velocidad (magnitud)
+  protected int alto;                  // Alto entidad
+  protected int ancho;                 // Ancho entidad
+  protected Nivel onNivel;             // En que nivel esta ubicado la entidad?
+  protected RectCollider collider;     // Collider de la entidad
   
+  /** Constructor paramentrizado */
   public Persona(float x, float y, int vida, int velocidad, int alto, int ancho, Nivel nivel) {
     super(x, y);
     this.vida = vida;
@@ -17,12 +23,16 @@ abstract class Persona extends GameObject {
     this.collider = new RectCollider(this.posicion.x, this.posicion.y, alto, ancho, true);
   }
   
+  /** Declaracion de la existencia de accion de disparar */
   public abstract void shoot();
   
+  /** Declaracion de la existencia de accion de moverse */
   public abstract void move();
   
+  /** Declaracion de la existencia de accion de sufrir daño */
   public abstract void damage(int dano);
   
+  /** Declaracion de la existencia de definir vector direccion de disparo */
   public abstract PVector direccionDisparo();
   
   /** Metodos accesores */

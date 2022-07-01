@@ -1,3 +1,7 @@
+/** Clase abstracta GameObject:
+Clase de la que nacen las otras clases.
+*/
+
 abstract class GameObject {
   protected PVector posicion;
   
