@@ -33,11 +33,11 @@ void draw() {
   switch (estadoJuego) {
     case MaquinaEstados.ESTADO_INICIO:
       background(0);
-      introSong.play();
+      if(!introSong.isPlaying()) introSong.loop();
       text("INICIOOOO", width/2, height/2);
       break;
     case MaquinaEstados.ESTADO_JUGANDO:
-      playingSong.play();
+      if (!playingSong.isPlaying()) playingSong.play();
       nivelEnCurso.display();
       jugador.display();
       jugador.move();
@@ -55,7 +55,7 @@ void draw() {
     case MaquinaEstados.ESTADO_PERDIDO:
       limpiarPantalla();
       playingSong.mute();
-      loseSong.play();
+      loseSong.loop();
       text("PERDISTE BOBO", width/2, height/2);
       text(String.format("Puntaje: %d", jugador.getPuntaje()), width/2, height/2+50);
       break;
@@ -63,7 +63,7 @@ void draw() {
 }
 
 void puntajeFinal() {
-  if (jugador.getPuntaje() == vidaJugador)
+  if (jugador.getVida() == vidaJugador)
     jugador.incPuntaje(800);
   else {
     for(int i=1; i<=jugador.getVida(); i++) {

@@ -73,7 +73,7 @@ class Jugador extends Persona {
     
     for (int i=0; i<this.aniMov.length; i++) {
         this.aniMov[i].animSprite(false);
-      }
+    }
       
     if (keyPressed) {
       // Guarda la posicion anterior. Detecta un movimiento un instante anterior
@@ -120,7 +120,7 @@ class Jugador extends Persona {
     
     for (int i=0; i<this.aniMov.length; i++) {
         this.aniMov[i].setPosicion(this.posicion.x, this.posicion.y);
-      }
+     }
   }
   
   private void initializeAnims() {

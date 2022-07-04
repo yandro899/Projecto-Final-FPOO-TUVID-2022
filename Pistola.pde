@@ -7,14 +7,14 @@ class Pistola extends Arma {
   /** Constructor por defecto */
   public Pistola() {
     super(35, 1, 7);
-    this.sprite = new SpriteRenderer("/images/armas/arma_comun.png", 40, 40, 0, 0, true);
+    this.sprite = new SpriteRenderer("/images/armas/arma_comun_e.png", 40, 40, 0, 0, true);
     this.shootSound = minim.loadSample("/sfx/armaComun/enemyShoot.wav");
   }
   
   /** Constructor paramentrizado */
   public Pistola(Persona portador) {
     super(35, 1, 15, portador);
-    this.sprite = new SpriteRenderer("/images/armas/arma_comun.png", 40, 40, 0, 0, true);
+    this.sprite = new SpriteRenderer("/images/armas/arma_comun_j.png", 40, 40, 0, 0, true);
     this.shootSound = minim.loadSample("/sfx/armaComun/playerShoot.wav");
   }
   
