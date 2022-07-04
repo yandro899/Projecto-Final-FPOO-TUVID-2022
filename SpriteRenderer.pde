@@ -49,5 +49,8 @@ class SpriteRenderer {
     return this.isDisplay;
   }
   
+  public PVector getPosicion() {
+    return new PVector(this.posicionX, this.posicionY);
+  }
   
 }

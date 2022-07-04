@@ -7,11 +7,13 @@ class Pistola extends Arma {
   /** Constructor por defecto */
   public Pistola() {
     super(35, 1, 7);
+    this.sprite = new SpriteRenderer("/images/armas/arma_comun.png", 40, 40, 0, 0, true);
   }
   
   /** Constructor paramentrizado */
   public Pistola(Persona portador) {
     super(35, 1, 15, portador);
+    this.sprite = new SpriteRenderer("/images/armas/arma_comun.png", 40, 40, 0, 0, true);
   }
   
   /** Dispara la pistola */
@@ -31,8 +33,17 @@ class Pistola extends Arma {
   
   /** Dibuja la pistola en pantalla */
   public void display() {
-    square(this.posicion.x, this.posicion.y, 10);
-    //println(this.municionCargada.get(0).getPosicion().x + " " + this.municionCargada.get(0).getPosicion().y);
+    float rotacion = PVector.angleBetween(new PVector(-1, 0), this.portador.direccionDisparo().copy());
+    
+    translate(this.portador.getPosicion().x, this.portador.getPosicion().y);
+    int opuestoSentido = 1;
+    if (this.portador.direccionDisparo().y > 0) opuestoSentido = -1;
+    
+    rotate(rotacion*opuestoSentido);
+    this.sprite.displaySprite();
+    rotate(-rotacion*opuestoSentido);
+    translate(-this.portador.getPosicion().x, -this.portador.getPosicion().y);
+    
     for(int i=0; i<this.municionMax; i++) {
       this.municionCargada.get(i).display();
     }

@@ -18,6 +18,7 @@ abstract class Enemigo extends Persona {
     this.isPlayer = false;
     this.recorrido = new ArrayList<PVector>();
     this.velocidad = new PVector();
+    this.mira = this.onNivel.getJugador().getPosicion().copy();
   }
   
   /** Indica si el enemigo esta cerca de un nodo */

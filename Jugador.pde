@@ -6,7 +6,6 @@ class Jugador extends Persona {
   private int puntaje;              // Puntaje total acumulado
   private ArrayList<Arma> arsenal;  // Arsenal de armas de las que el jugador dispone
   private int armaEnUso;            // Arma que el jugador esta usando actualmente
-  private PVector mira;             // Mira del jugador (dependiente del mouse)
   private PVector posicionAnt;
   private AnimatedSprite [] aniMov;
   
@@ -116,6 +115,7 @@ class Jugador extends Persona {
     }
     this.collider.setPosicion(this.posicion.x, this.posicion.y);
     chequeoParedesColision(key);
+    
     this.arsenal.get(this.armaEnUso).setPosicion(this.posicion.x, this.posicion.y);
     
     for (int i=0; i<this.aniMov.length; i++) {
@@ -171,11 +171,6 @@ class Jugador extends Persona {
   /** Selecciona el arma */
   public Arma seleccionarArma() {
     return this.arsenal.get(this.armaEnUso);
-  }
-  
-  /** Entrega el vector direccion del disparo */
-  public PVector direccionDisparo() {
-    return this.mira.sub(this.posicion).normalize();
   }
   
   /** El jugador recibió daño */

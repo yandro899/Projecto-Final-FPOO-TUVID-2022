@@ -11,6 +11,7 @@ abstract class Persona extends GameObject {
   protected int ancho;                 // Ancho entidad
   protected Nivel onNivel;             // En que nivel esta ubicado la entidad?
   protected RectCollider collider;     // Collider de la entidad
+  protected PVector mira;
   
   /** Constructor paramentrizado */
   public Persona(float x, float y, int vida, int velocidad, int alto, int ancho, Nivel nivel) {
@@ -32,8 +33,10 @@ abstract class Persona extends GameObject {
   /** Declaracion de la existencia de accion de sufrir daño */
   public abstract void damage(int dano);
   
-  /** Declaracion de la existencia de definir vector direccion de disparo */
-  public abstract PVector direccionDisparo();
+  /** Entrega el vector direccion del disparo */
+  public PVector direccionDisparo() {
+    return PVector.sub(this.mira, this.posicion).normalize();
+  }
   
   /** Metodos accesores */
   public int getVida() {
@@ -54,6 +57,10 @@ abstract class Persona extends GameObject {
   
   public boolean isPlayer() {
     return this.isPlayer;
+  }
+  
+  public PVector getMiraPos(){
+    return this.mira;
   }
   
   public void setVida(int vida) {

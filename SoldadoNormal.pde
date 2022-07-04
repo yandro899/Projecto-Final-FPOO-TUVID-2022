@@ -28,6 +28,9 @@ class SoldadoNormal extends Enemigo {
   /** Movimiento de este enemigo */
   public void move() {
     
+    // Actualiza la mira del enemigo
+    this.mira = this.onNivel.getJugador().getPosicion().copy();
+    
     // Condicion de disparo (Un disparo por segundo)
     if (frameCount%60==0) this.shoot();
     
@@ -65,13 +68,6 @@ class SoldadoNormal extends Enemigo {
     this.collider.setPosicion(this.posicion.x, this.posicion.y);
     this.arma.setPosicion(this.posicion.x, this.posicion.y);
     
-  }
-  
-  /** Direccion del disparo de este enemigo */
-  // TODO: Mover a clase Enemigo
-  public PVector direccionDisparo() {
-    PVector disparo = new PVector(this.onNivel.getJugador().getPosicion().x, this.onNivel.getJugador().getPosicion().y);
-    return disparo.sub(this.posicion).normalize();
   }
   
   /** Accion de recibir daño */

@@ -6,14 +6,13 @@ private Jugador jugador;
 private Interfaz interfaz;
 private int estadoJuego;
 private int nivelActual;
-private Nivel [] niveles;
+private Nivel nivelEnCurso;
 
 void setup() {
-  int alto = Interfaz.altoInterfaz+600;
   size(600, 630);
   estadoJuego = MaquinaEstados.ESTADO_INICIO;
   nivelActual = 1;
-  niveles = new Nivel[2];
+  //niveles = new Nivel[2];
 }
 
 void draw() {
@@ -23,7 +22,7 @@ void draw() {
       text("INICIOOOO", width/2, height/2);
       break;
     case MaquinaEstados.ESTADO_JUGANDO:
-      niveles[nivelActual-1].display();
+      nivelEnCurso.display();
       jugador.display();
       jugador.move();
       interfaz.display();
@@ -53,49 +52,49 @@ void inicio() {
       jugador = new Jugador(575, 300, 5, 2, null);
       
       // Crea el nivel
-      niveles[0] = new Nivel(1, "/images/bg/fondo_nivel 1.jpg", jugador);
+      nivelEnCurso = new Nivel(1, "/images/bg/fondo_nivel 1.jpg", jugador);
       
       // Agregado Enemigos
       PVector[] puntos = {new PVector(50,100), new PVector(50,300)};
-      niveles[0].addEnemigo(new SoldadoNormal(50, 100, niveles[nivelActual-1]), puntos);
+      nivelEnCurso.addEnemigo(new SoldadoNormal(50, 100, nivelEnCurso), puntos);
       PVector[] puntos2 = {new PVector(50,500), new PVector(50,300)};
-      niveles[0].addEnemigo(new SoldadoNormal(50, 500, niveles[nivelActual-1]), puntos2);
+      nivelEnCurso.addEnemigo(new SoldadoNormal(50, 500, nivelEnCurso), puntos2);
       PVector[] puntos3 = {new PVector(250,300), new PVector(50,300)};
-      niveles[0].addEnemigo(new SoldadoNormal(150, 300, niveles[nivelActual-1]), puntos3);
-      niveles[0].addEnemigo(new SoldadoNormal(125, 225, niveles[nivelActual-1]), null);
-      niveles[0].addEnemigo(new SoldadoNormal(125, 375, niveles[nivelActual-1]), null);
+      nivelEnCurso.addEnemigo(new SoldadoNormal(150, 300, nivelEnCurso), puntos3);
+      nivelEnCurso.addEnemigo(new SoldadoNormal(125, 225, nivelEnCurso), null);
+      nivelEnCurso.addEnemigo(new SoldadoNormal(125, 375, nivelEnCurso), null);
       
       // Paredes Lado noroeste
-      niveles[0].addPared(new Pared(75, 25, 50, 150));
-      niveles[0].addPared(new Pared(125, 125, 150, 50));
-      niveles[0].addPared(new Pared(175, 200, 100, 50));
+      nivelEnCurso.addPared(new Pared(75, 25, 50, 150));
+      nivelEnCurso.addPared(new Pared(125, 125, 150, 50));
+      nivelEnCurso.addPared(new Pared(175, 200, 100, 50));
       
       // Paredes Lado noreste
-      niveles[0].addPared(new Pared(75, 575, 50, 150));
-      niveles[0].addPared(new Pared(125, 475, 150, 50));
-      niveles[0].addPared(new Pared(175, 400, 100, 50));
+      nivelEnCurso.addPared(new Pared(75, 575, 50, 150));
+      nivelEnCurso.addPared(new Pared(125, 475, 150, 50));
+      nivelEnCurso.addPared(new Pared(175, 400, 100, 50));
       
       // Paredes centrales
-      niveles[0].addPared(new Pared(275, 300, 300, 50));
-      niveles[0].addPared(new Pared(275, 75, 50, 150));
-      niveles[0].addPared(new Pared(275, 525, 50, 150));
+      nivelEnCurso.addPared(new Pared(275, 300, 300, 50));
+      nivelEnCurso.addPared(new Pared(275, 75, 50, 150));
+      nivelEnCurso.addPared(new Pared(275, 525, 50, 150));
       
       // Paredes central-derechas
-      niveles[0].addPared(new Pared(425, 125, 150, 50));
-      niveles[0].addPared(new Pared(375, 200, 100, 50));
-      niveles[0].addPared(new Pared(425, 475, 150, 50));
-      niveles[0].addPared(new Pared(375, 400, 100, 50));
+      nivelEnCurso.addPared(new Pared(425, 125, 150, 50));
+      nivelEnCurso.addPared(new Pared(375, 200, 100, 50));
+      nivelEnCurso.addPared(new Pared(425, 475, 150, 50));
+      nivelEnCurso.addPared(new Pared(375, 400, 100, 50));
       
       // Paredes lateral derechas
-      niveles[0].addPared(new Pared(550, 25, 50, 100));
-      niveles[0].addPared(new Pared(525, 75, 50, 50));
-      niveles[0].addPared(new Pared(525, 200, 100, 50));
-      niveles[0].addPared(new Pared(475, 300, 100, 50));
-      niveles[0].addPared(new Pared(525, 400, 100, 50));
-      niveles[0].addPared(new Pared(525, 525, 50, 50));
-      niveles[0].addPared(new Pared(550, 575, 50, 100));
+      nivelEnCurso.addPared(new Pared(550, 25, 50, 100));
+      nivelEnCurso.addPared(new Pared(525, 75, 50, 50));
+      nivelEnCurso.addPared(new Pared(525, 200, 100, 50));
+      nivelEnCurso.addPared(new Pared(475, 300, 100, 50));
+      nivelEnCurso.addPared(new Pared(525, 400, 100, 50));
+      nivelEnCurso.addPared(new Pared(525, 525, 50, 50));
+      nivelEnCurso.addPared(new Pared(550, 575, 50, 100));
       
-      jugador.setNivel(niveles[0]);
+      jugador.setNivel(nivelEnCurso);
     break;
   }
   
@@ -105,7 +104,7 @@ void inicio() {
 
 // Libera los recursos de lo que no se va a usar
 void limpiarPantalla() {
-  niveles[nivelActual-1] = null;
+  nivelEnCurso = null;
   //jugador = null;
   interfaz = null;
   background(0);
