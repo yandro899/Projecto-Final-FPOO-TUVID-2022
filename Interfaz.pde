@@ -4,12 +4,13 @@ Sirve de HUD para indicar la salud, puntos, y otras cosas en el juego
 */
 
 class Interfaz extends GameObject {
+  public static final int altoInterfaz = 30;
   
   public void display() {
     // Cuadro
     rectMode(CORNER);
     noStroke();
-    rect(0,0,width, 35);
+    rect(0, 0, width, Interfaz.altoInterfaz);
     rectMode(CENTER);
     stroke(1);
     // Vida

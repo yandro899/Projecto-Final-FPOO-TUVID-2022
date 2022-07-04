@@ -9,7 +9,9 @@ private int nivelActual;
 private Nivel [] niveles;
 
 void setup() {
-  size(600, 600);
+  println(Interfaz.altoInterfaz);
+  int alto = Interfaz.altoInterfaz+600;
+  size(600, 630);
   estadoJuego = MaquinaEstados.ESTADO_INICIO;
   nivelActual = 1;
   niveles = new Nivel[2];
@@ -30,7 +32,7 @@ void draw() {
     case MaquinaEstados.ESTADO_GANADO:
       limpiarPantalla();
       text("GANASTEEEEEEE", width/2, height/2);
-      text(String.format("Puntaje: %d", jugador.getPuntaje()), width/2, height/2);
+      text(String.format("Puntaje: %d", jugador.getPuntaje()), width/2, height/2+50);
       // TODO: Puntaje adicional por vida
       // TODO: puntaje adicionar por tiros usados
       break;
@@ -42,19 +44,60 @@ void draw() {
 }
 
 void inicio() {
-  // Se crea al jugador
-  jugador = new Jugador(5, 7, null);
+  
   
   // Dependiendo el nivel en curso, se dibuja e instancia en pantalla
   // su nivel correspondiente y tambien sus enemigos y obstaculos.
   switch (nivelActual) {
     case 1:
       // NIVEL 1
-      niveles[0] = new Nivel(1, "/images/bg/grass.jpg", jugador);
-      PVector[] puntos = {new PVector(500,500), new PVector(500,100)};
-      niveles[0].addEnemigo(new SoldadoNormal(400, 500, niveles[nivelActual-1]), puntos);
-      PVector[] puntos2 = {new PVector(100,500), new PVector(100,100)};
-      niveles[0].addEnemigo(new SoldadoNormal(200, 200, niveles[nivelActual-1]), puntos2);
+      
+      // Se crea al jugador
+      jugador = new Jugador(575, 300, 5, 3, null);
+      
+      // Crea el nivel
+      niveles[0] = new Nivel(1, "/images/bg/fondo_nivel 1.jpg", jugador);
+      
+      // Agregado Enemigos
+      PVector[] puntos = {new PVector(50,100), new PVector(50,300)};
+      niveles[0].addEnemigo(new SoldadoNormal(50, 100, niveles[nivelActual-1]), puntos);
+      PVector[] puntos2 = {new PVector(50,500), new PVector(50,300)};
+      niveles[0].addEnemigo(new SoldadoNormal(50, 500, niveles[nivelActual-1]), puntos2);
+      PVector[] puntos3 = {new PVector(250,300), new PVector(50,300)};
+      niveles[0].addEnemigo(new SoldadoNormal(150, 300, niveles[nivelActual-1]), puntos3);
+      niveles[0].addEnemigo(new SoldadoNormal(125, 225, niveles[nivelActual-1]), null);
+      niveles[0].addEnemigo(new SoldadoNormal(125, 375, niveles[nivelActual-1]), null);
+      
+      // Paredes Lado noroeste
+      niveles[0].addPared(new Pared(75, 25, 50, 150));
+      niveles[0].addPared(new Pared(125, 125, 150, 50));
+      niveles[0].addPared(new Pared(175, 200, 100, 50));
+      
+      // Paredes Lado noreste
+      niveles[0].addPared(new Pared(75, 575, 50, 150));
+      niveles[0].addPared(new Pared(125, 475, 150, 50));
+      niveles[0].addPared(new Pared(175, 400, 100, 50));
+      
+      // Paredes centrales
+      niveles[0].addPared(new Pared(275, 300, 300, 50));
+      niveles[0].addPared(new Pared(275, 75, 50, 150));
+      niveles[0].addPared(new Pared(275, 525, 50, 150));
+      
+      // Paredes central-derechas
+      niveles[0].addPared(new Pared(425, 125, 150, 50));
+      niveles[0].addPared(new Pared(375, 200, 100, 50));
+      niveles[0].addPared(new Pared(425, 475, 150, 50));
+      niveles[0].addPared(new Pared(375, 400, 100, 50));
+      
+      // Paredes lateral derechas
+      niveles[0].addPared(new Pared(550, 25, 50, 100));
+      niveles[0].addPared(new Pared(525, 75, 50, 50));
+      niveles[0].addPared(new Pared(525, 200, 100, 50));
+      niveles[0].addPared(new Pared(475, 300, 100, 50));
+      niveles[0].addPared(new Pared(525, 400, 100, 50));
+      niveles[0].addPared(new Pared(525, 525, 50, 50));
+      niveles[0].addPared(new Pared(550, 575, 50, 100));
+      
       jugador.setNivel(niveles[0]);
     break;
   }

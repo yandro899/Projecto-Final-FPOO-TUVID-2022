@@ -46,7 +46,7 @@ class Pistola extends Arma {
   public void chequeoBalas() {
     for (int i=0; i<this.municionMax; i++) {
       if(!this.municionCargada.get(i).getCollider().collideWith(this.portador.getNivel().getZonaJugable()) ||
-      this.municionCargada.get(i).impactSomeEnemy()) {
+      this.municionCargada.get(i).impactSomeThing()) {
         this.municionCargada.get(i).unShoot();
         
         // Vuelve la bala y su hitbox al cargador al salir del mapa

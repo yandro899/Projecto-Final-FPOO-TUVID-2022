@@ -14,7 +14,7 @@ abstract class Persona extends GameObject {
   
   /** Constructor paramentrizado */
   public Persona(float x, float y, int vida, int velocidad, int alto, int ancho, Nivel nivel) {
-    super(x, y);
+    super(x, y+Interfaz.altoInterfaz);
     this.vida = vida;
     this.magVelocidad = velocidad;
     this.alto = alto;

@@ -19,10 +19,10 @@ class RectCollider extends GameObject{
   /** Indica si hay colision con otro objeto de la misma clase */
   public boolean collideWith(RectCollider collider) {
     if (!this.collideOn) return false;
-    if (this.posicion.x-ancho/2 > collider.getPosicion().x-getAncho()/2) return false;
-    if (this.posicion.x+ancho/2 < collider.getPosicion().x+getAncho()/2) return false;
-    if (this.posicion.y-alto/2 > collider.getPosicion().y+getAlto()/2) return false;
-    if (this.posicion.y+alto/2 < collider.getPosicion().y-getAlto()/2) return false;
+    if (this.posicion.x-ancho/2 > collider.getPosicion().x+collider.getAncho()/2) return false;
+    if (this.posicion.x+ancho/2 < collider.getPosicion().x-collider.getAncho()/2) return false;
+    if (this.posicion.y-alto/2 > collider.getPosicion().y+collider.getAlto()/2) return false;
+    if (this.posicion.y+alto/2 < collider.getPosicion().y-collider.getAlto()/2) return false;
     return true;
   }
   
