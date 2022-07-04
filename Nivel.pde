@@ -14,7 +14,7 @@ class Nivel extends GameObject {
   /** Contructor parametrizado */
   public Nivel(int nivel, String spriteStr, Jugador jugador) {
     this.numNivel = nivel;
-    this.sprite = new SpriteRenderer(spriteStr, width, height-Interfaz.altoInterfaz, width/2, height/2+Interfaz.altoInterfaz/2);
+    this.sprite = new SpriteRenderer(spriteStr, width, height-Interfaz.altoInterfaz, width/2, height/2+Interfaz.altoInterfaz/2, true);
     this.zonaJugable = new RectCollider(this.posicion.x, this.posicion.y+Interfaz.altoInterfaz, height, width, true);
     this.jugador = jugador;
     this.enemigos = new ArrayList<Enemigo>();

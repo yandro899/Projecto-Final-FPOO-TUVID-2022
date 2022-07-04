@@ -6,7 +6,7 @@ class Pistola extends Arma {
   
   /** Constructor por defecto */
   public Pistola() {
-    super(35, 1, 15);
+    super(35, 1, 7);
   }
   
   /** Constructor paramentrizado */

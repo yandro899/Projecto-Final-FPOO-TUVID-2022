@@ -9,7 +9,6 @@ private int nivelActual;
 private Nivel [] niveles;
 
 void setup() {
-  println(Interfaz.altoInterfaz);
   int alto = Interfaz.altoInterfaz+600;
   size(600, 630);
   estadoJuego = MaquinaEstados.ESTADO_INICIO;
@@ -44,8 +43,6 @@ void draw() {
 }
 
 void inicio() {
-  
-  
   // Dependiendo el nivel en curso, se dibuja e instancia en pantalla
   // su nivel correspondiente y tambien sus enemigos y obstaculos.
   switch (nivelActual) {
@@ -53,7 +50,7 @@ void inicio() {
       // NIVEL 1
       
       // Se crea al jugador
-      jugador = new Jugador(575, 300, 5, 3, null);
+      jugador = new Jugador(575, 300, 5, 2, null);
       
       // Crea el nivel
       niveles[0] = new Nivel(1, "/images/bg/fondo_nivel 1.jpg", jugador);

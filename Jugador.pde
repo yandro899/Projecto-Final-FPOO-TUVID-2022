@@ -8,6 +8,7 @@ class Jugador extends Persona {
   private int armaEnUso;            // Arma que el jugador esta usando actualmente
   private PVector mira;             // Mira del jugador (dependiente del mouse)
   private PVector posicionAnt;
+  private AnimatedSprite [] aniMov;
   
   // Controles de movimiento
   public static final char MOV_UP = 'w';
@@ -17,7 +18,7 @@ class Jugador extends Persona {
   
   /** Constructor parametrizado */
   public Jugador(int vida, int velocidad, Nivel nivel) {
-    super(width/2, height/2, vida, velocidad, 30, 10, nivel);
+    super(width/2, height/2, vida, velocidad, 40, 40, nivel);
     this.arsenal = new ArrayList<Arma>();
     // POR DEFECTO UNA PISTOLA
     this.arsenal.add(new Pistola(this));
@@ -25,11 +26,12 @@ class Jugador extends Persona {
     this.isPlayer = true;
     this.puntaje = 0;
     this.posicionAnt = this.posicion.copy();
+    this.initializeAnims();
   }
   
   /** Constructor parametrizado */
   public Jugador(float x, float y, int vida, int velocidad, Nivel nivel) {
-    super(x, y, vida, velocidad, 30, 10, nivel);
+    super(x, y, vida, velocidad, 40, 40, nivel);
     this.arsenal = new ArrayList<Arma>();
     // POR DEFECTO UNA PISTOLA
     this.arsenal.add(new Pistola(this));
@@ -37,12 +39,19 @@ class Jugador extends Persona {
     this.isPlayer = true;
     this.puntaje = 0;
     this.posicionAnt = this.posicion.copy();
+    this.initializeAnims();
   }
   
   /** Dibuja el jugador (y la mira) en pantalla */
   public void display() {
-    rectMode(CENTER);
-    rect(this.posicion.x, this.posicion.y, this.ancho, this.alto);
+    
+    // DEBUG: Ver colision jugador
+    //this.collider.display();
+    
+    for (int i=0; i<this.aniMov.length; i++) {
+      this.aniMov[i].displaySprite();
+      //println(i + " " + this.aniMov[i].isDisplay());
+    }
     
     // Dibujar la mira (posicion del mouse)
     this.mira = new PVector(mouseX, mouseY);
@@ -63,35 +72,60 @@ class Jugador extends Persona {
   /** Movimiento del jugador */
   public void move() { 
     
+    for (int i=0; i<this.aniMov.length; i++) {
+        this.aniMov[i].animSprite(false);
+      }
+      
     if (keyPressed) {
-      // Guarda la posicion anterior (si cambio)
-      if (this.posicion.x != this.posicionAnt.x || this.posicion.y != this.posicionAnt.y)
+      // Guarda la posicion anterior. Detecta un movimiento un instante anterior
+      if (!this.posicion.equals(this.posicionAnt))
         this.posicionAnt = new PVector(this.posicion.x, this.posicion.y);
+      
+      for (int i=0; i<this.aniMov.length; i++) {
+        this.aniMov[i].setDisplay(false);
+      }
+        
       switch (key) {
         case MOV_UP:
+        
           this.posicion.add(0, -this.magVelocidad);
-          //this.chequeoParedesColision(MOV_UP);
+          this.aniMov[0].setDisplay(true);
+          this.aniMov[0].animSprite(true);
           if (this.posicion.y<Interfaz.altoInterfaz) this.posicion.y = Interfaz.altoInterfaz;
           break;
         case MOV_DOWN:
           this.posicion.add(0, this.magVelocidad);
-          //this.chequeoParedesColision(MOV_DOWN);
+          this.aniMov[1].setDisplay(true);
+          this.aniMov[1].animSprite(true);
           if (this.posicion.y>height) this.posicion.y = height;
           break;
         case MOV_LEFT:
           this.posicion.add(-this.magVelocidad, 0);
-          //this.chequeoParedesColision(MOV_LEFT);
+          this.aniMov[2].setDisplay(true);
+          this.aniMov[2].animSprite(true);
           if (this.posicion.x<0) this.posicion.x = 0;
           break;
         case MOV_RIGHT:
           this.posicion.add(this.magVelocidad, 0);
-          //this.chequeoParedesColision(MOV_RIGHT);
+          this.aniMov[3].setDisplay(true);
+          this.aniMov[3].animSprite(true);
           if (this.posicion.x>width) this.posicion.x = width;
       }
     }
     chequeoParedesColision(key);
     this.arsenal.get(this.armaEnUso).setPosicion(this.posicion.x, this.posicion.y);
     this.collider.setPosicion(this.posicion.x, this.posicion.y);
+    for (int i=0; i<this.aniMov.length; i++) {
+        this.aniMov[i].setPosicion(this.posicion.x, this.posicion.y);
+      }
+  }
+  
+  private void initializeAnims() {
+    AnimatedSprite[] aniMov = {new AnimatedSprite("/images/tanque/tanque_mov_up.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, true, false),
+                               new AnimatedSprite("/images/tanque/tanque_mov_down.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false),
+                               new AnimatedSprite("/images/tanque/tanque_mov_left.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false),
+                               new AnimatedSprite("/images/tanque/tanque_mov_right.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false)};
+    this.aniMov = aniMov;
   }
   
   /** Chequeo colision paredes */
