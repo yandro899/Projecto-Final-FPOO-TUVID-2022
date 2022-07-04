@@ -87,7 +87,6 @@ class Jugador extends Persona {
         
       switch (key) {
         case MOV_UP:
-        
           this.posicion.add(0, -this.magVelocidad);
           this.aniMov[0].setDisplay(true);
           this.aniMov[0].animSprite(true);
@@ -110,11 +109,15 @@ class Jugador extends Persona {
           this.aniMov[3].setDisplay(true);
           this.aniMov[3].animSprite(true);
           if (this.posicion.x>width) this.posicion.x = width;
+          break;
+        default:
+          this.aniMov[3].setDisplay(true);
       }
     }
+    this.collider.setPosicion(this.posicion.x, this.posicion.y);
     chequeoParedesColision(key);
     this.arsenal.get(this.armaEnUso).setPosicion(this.posicion.x, this.posicion.y);
-    this.collider.setPosicion(this.posicion.x, this.posicion.y);
+    
     for (int i=0; i<this.aniMov.length; i++) {
         this.aniMov[i].setPosicion(this.posicion.x, this.posicion.y);
       }
@@ -153,9 +156,9 @@ class Jugador extends Persona {
           if (paredAnalizada.getCollider().collideWith(this.collider))
           this.posicion = new PVector(paredAnalizada.getPosicion().x-paredAnalizada.getCollider().getAncho()/2-this.ancho/2-1,
           this.posicion.y);
-      }
-      
+      } 
     }
+    this.collider.setPosicion(this.posicion.x, this.posicion.y);
   }
   
   /** Accion de disparo del jugador */
