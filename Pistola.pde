@@ -8,12 +8,14 @@ class Pistola extends Arma {
   public Pistola() {
     super(35, 1, 7);
     this.sprite = new SpriteRenderer("/images/armas/arma_comun.png", 40, 40, 0, 0, true);
+    this.shootSound = minim.loadSample("/sfx/armaComun/enemyShoot.wav");
   }
   
   /** Constructor paramentrizado */
   public Pistola(Persona portador) {
     super(35, 1, 15, portador);
     this.sprite = new SpriteRenderer("/images/armas/arma_comun.png", 40, 40, 0, 0, true);
+    this.shootSound = minim.loadSample("/sfx/armaComun/playerShoot.wav");
   }
   
   /** Dispara la pistola */
@@ -21,6 +23,7 @@ class Pistola extends Arma {
     for(int i=0; i<this.municionMax; i++) {
       if (!this.municionCargada.get(i).isShooted()) {
         this.municionCargada.get(i).shootBullet();
+        this.shootSound.trigger();
         break;
       }
     }

@@ -29,6 +29,7 @@ class Nivel extends GameObject {
     // Si no hay enemigos en el nivel, el jugador gano el nivel.
     if (this.enemigos.isEmpty()) {
       estadoJuego = MaquinaEstados.ESTADO_GANADO;
+      puntajeFinal();
       nivelActual++;
     }
     

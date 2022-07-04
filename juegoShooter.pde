@@ -1,3 +1,5 @@
+import ddf.minim.*;
+
 /**
 Parte sujeta a cambios
 */
@@ -7,21 +9,35 @@ private Interfaz interfaz;
 private int estadoJuego;
 private int nivelActual;
 private Nivel nivelEnCurso;
+private int vidaJugador;
+
+private Minim minim;
+private AudioPlayer introSong;     //sonido del interfaz.
+private AudioPlayer playingSong;   //sonido de fondo mientras se juega.
+private AudioPlayer winSong;       //sonido de guando se gana.
+private AudioPlayer loseSong;       //sonido de guando se pierde.
 
 void setup() {
   size(600, 630);
+  vidaJugador = 5;
   estadoJuego = MaquinaEstados.ESTADO_INICIO;
   nivelActual = 1;
-  //niveles = new Nivel[2];
+  minim = new Minim(this);
+  playingSong = minim.loadFile("/music/inGame.mp3");       //sonido de fondo mientras se juega.
+  introSong = minim.loadFile("/music/prepareLevel.mp3");    //sonido del interfaz.
+  winSong = minim.loadFile("/music/endLevel.mp3");  //sonido de victoria.
+  loseSong = minim.loadFile("/music/endLevel.mp3");  //sonido de derrota.
 }
 
 void draw() {
   switch (estadoJuego) {
     case MaquinaEstados.ESTADO_INICIO:
       background(0);
+      introSong.play();
       text("INICIOOOO", width/2, height/2);
       break;
     case MaquinaEstados.ESTADO_JUGANDO:
+      playingSong.play();
       nivelEnCurso.display();
       jugador.display();
       jugador.move();
@@ -29,19 +45,37 @@ void draw() {
       break;
     case MaquinaEstados.ESTADO_GANADO:
       limpiarPantalla();
+      playingSong.mute();
+      winSong.play();
       text("GANASTEEEEEEE", width/2, height/2);
-      text(String.format("Puntaje: %d", jugador.getPuntaje()), width/2, height/2+50);
-      // TODO: Puntaje adicional por vida
+      text(String.format("Vidas restantes: %d", jugador.getVida()), width/2, height/2+40);
+      text(String.format("Puntaje: %d", jugador.getPuntaje()), width/2, height/2+80);
       // TODO: puntaje adicionar por tiros usados
       break;
     case MaquinaEstados.ESTADO_PERDIDO:
       limpiarPantalla();
+      playingSong.mute();
+      loseSong.play();
       text("PERDISTE BOBO", width/2, height/2);
+      text(String.format("Puntaje: %d", jugador.getPuntaje()), width/2, height/2+50);
       break;
   }
 }
 
+void puntajeFinal() {
+  if (jugador.getPuntaje() == vidaJugador)
+    jugador.incPuntaje(800);
+  else {
+    for(int i=1; i<=jugador.getVida(); i++) {
+      jugador.incPuntaje(100);
+    }
+  }
+}
+
 void inicio() {
+  // Apaga la musica de entrada
+  introSong.mute();
+  
   // Dependiendo el nivel en curso, se dibuja e instancia en pantalla
   // su nivel correspondiente y tambien sus enemigos y obstaculos.
   switch (nivelActual) {
@@ -49,7 +83,7 @@ void inicio() {
       // NIVEL 1
       
       // Se crea al jugador
-      jugador = new Jugador(575, 300, 5, 2, null);
+      jugador = new Jugador(575, 300, vidaJugador, 2, null);
       
       // Crea el nivel
       nivelEnCurso = new Nivel(1, "/images/bg/fondo_nivel 1.jpg", jugador);
@@ -105,7 +139,6 @@ void inicio() {
 // Libera los recursos de lo que no se va a usar
 void limpiarPantalla() {
   nivelEnCurso = null;
-  //jugador = null;
   interfaz = null;
   background(0);
 }

@@ -178,6 +178,7 @@ class Jugador extends Persona {
     this.vida -= dano;
     if (this.vida <= 0) {
       estadoJuego = MaquinaEstados.ESTADO_PERDIDO;
+      puntajeFinal();
     }
   }
   
