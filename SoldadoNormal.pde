@@ -4,11 +4,13 @@ Uno de los enemigos del juego. Es el mas debil de todos
 
 class SoldadoNormal extends Enemigo {
   private AnimatedSprite [] aniMov;
+  private int delayShoot;
   
   /** Constructor parametrizado */
-  public SoldadoNormal(float x, float y, Nivel nivel) {
+  public SoldadoNormal(float x, float y, Nivel nivel, int delayShoot) {
     // super ( posX, posY, vida, velocidad, alto, ancho, nivel, puntos, arma)
     super(x, y, 2, 2, 40, 40, nivel, 400, new Pistola());
+    this.delayShoot = delayShoot;
     this.arma.setPortador(this);
     this.collider = new RectCollider(this.posicion.x, this.posicion.y, alto, ancho, true);
     initializeAnims();
@@ -45,7 +47,7 @@ class SoldadoNormal extends Enemigo {
     this.mira = this.onNivel.getJugador().getPosicion().copy();
     
     // Condicion de disparo (Un disparo por segundo)
-    if (frameCount%60==0) this.shoot();
+    if (frameCount%60==this.delayShoot) this.shoot();
     
     // Si no hay puntos de movimiento, se queda donde esta.
     if (this.recorrido==null || this.recorrido.size() == 0) return;
@@ -113,10 +115,10 @@ class SoldadoNormal extends Enemigo {
   }
   
   private void initializeAnims() {
-    AnimatedSprite[] aniMov = {new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Up.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, true, false),
-                               new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Down.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false),
-                               new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Left.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false),
-                               new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Right.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false)};
+    AnimatedSprite[] aniMov = {new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Up.png", 40, 40, this.posicion.x, this.posicion.y, 8, true, false),
+                               new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Down.png", 40, 40, this.posicion.x, this.posicion.y, 8, false, false),
+                               new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Left.png", 40, 40, this.posicion.x, this.posicion.y, 8, false, false),
+                               new AnimatedSprite("/images/enemigoComun/Enemy_Normal_Move_Right.png", 40, 40, this.posicion.x, this.posicion.y, 8, false, false)};
     this.aniMov = aniMov;
   }
   

@@ -10,6 +10,7 @@ class Pared extends GameObject {
     this.collider = new RectCollider(x, y, alto, ancho, true);
   }
   
+  // Dibuja la pared en pantalla  
   public void display() {
     this.collider.display();
   }

@@ -10,8 +10,8 @@ abstract class Arma extends GameObject {
   protected boolean isReloading;                // Indica si el personaje esta recargando (Esto posiblemente se elimine)
   protected boolean isPickUp;                   // Indica si un arma fue agarrada (posiblemente se elimine, ya que es redundante con portador)
   protected Persona portador;                   // Persona que tiene el arma. Si es null, no tiene portador (esta en el suelo)
-  protected SpriteRenderer sprite;
-  protected AudioSample shootSound;
+  protected SpriteRenderer sprite;              // Sprite del arma
+  protected AudioSample shootSound;             // Sonido disparo
   
   /** Constructores parametrizados */
   // Inicializa Arma que no tiene portador (en el suelo)

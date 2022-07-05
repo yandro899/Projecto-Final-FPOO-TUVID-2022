@@ -6,8 +6,8 @@ class Jugador extends Persona {
   private int puntaje;              // Puntaje total acumulado
   private ArrayList<Arma> arsenal;  // Arsenal de armas de las que el jugador dispone
   private int armaEnUso;            // Arma que el jugador esta usando actualmente
-  private PVector posicionAnt;
   private AnimatedSprite [] aniMov;
+  private AudioSample damageSound;
   
   // Controles de movimiento
   public static final char MOV_UP = 'w';
@@ -17,28 +17,17 @@ class Jugador extends Persona {
   
   /** Constructor parametrizado */
   public Jugador(int vida, int velocidad, Nivel nivel) {
+    // Hitbox 30x40
     super(width/2, height/2, vida, velocidad, 40, 40, nivel);
     this.arsenal = new ArrayList<Arma>();
-    // POR DEFECTO UNA PISTOLA
-    this.arsenal.add(new Pistola(this));
-    this.armaEnUso = 0;
-    this.isPlayer = true;
-    this.puntaje = 0;
-    this.posicionAnt = this.posicion.copy();
-    this.initializeAnims();
+    this.initializeJugador();
   }
   
   /** Constructor parametrizado */
   public Jugador(float x, float y, int vida, int velocidad, Nivel nivel) {
     super(x, y, vida, velocidad, 40, 40, nivel);
     this.arsenal = new ArrayList<Arma>();
-    // POR DEFECTO UNA PISTOLA
-    this.arsenal.add(new Pistola(this));
-    this.armaEnUso = 0;
-    this.isPlayer = true;
-    this.puntaje = 0;
-    this.posicionAnt = this.posicion.copy();
-    this.initializeAnims();
+    this.initializeJugador();
   }
   
   /** Dibuja el jugador (y la mira) en pantalla */
@@ -77,9 +66,6 @@ class Jugador extends Persona {
       
     if (keyPressed) {
       // Guarda la posicion anterior. Detecta un movimiento un instante anterior
-      if (!this.posicion.equals(this.posicionAnt))
-        this.posicionAnt = new PVector(this.posicion.x, this.posicion.y);
-      
       for (int i=0; i<this.aniMov.length; i++) {
         this.aniMov[i].setDisplay(false);
       }
@@ -123,12 +109,18 @@ class Jugador extends Persona {
      }
   }
   
-  private void initializeAnims() {
-    AnimatedSprite[] aniMov = {new AnimatedSprite("/images/tanque/tanque_mov_up.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, true, false),
-                               new AnimatedSprite("/images/tanque/tanque_mov_down.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false),
-                               new AnimatedSprite("/images/tanque/tanque_mov_left.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false),
-                               new AnimatedSprite("/images/tanque/tanque_mov_right.png", 40, 40, this.posicion.x, this.posicion.y, 2, 8, false, false)};
+  private void initializeJugador() {
+    // POR DEFECTO UNA PISTOLA
+    this.arsenal.add(new Pistola(this));
+    this.armaEnUso = 0;
+    this.isPlayer = true;
+    this.puntaje = 0;
+    AnimatedSprite[] aniMov = {new AnimatedSprite("/images/tanque/tanque_mov_up.png", 40, 40, this.posicion.x, this.posicion.y, 8, true, false),
+                               new AnimatedSprite("/images/tanque/tanque_mov_down.png", 40, 40, this.posicion.x, this.posicion.y, 8, false, false),
+                               new AnimatedSprite("/images/tanque/tanque_mov_left.png", 40, 40, this.posicion.x, this.posicion.y, 8, false, false),
+                               new AnimatedSprite("/images/tanque/tanque_mov_right.png", 40, 40, this.posicion.x, this.posicion.y, 8, false, false)};
     this.aniMov = aniMov;
+    this.damageSound = minim.loadSample("/sfx/snd_curtgunshot.mp3");
   }
   
   /** Chequeo colision paredes */
@@ -176,6 +168,7 @@ class Jugador extends Persona {
   /** El jugador recibió daño */
   public void damage(int dano) {
     this.vida -= dano;
+    this.damageSound.trigger();
     if (this.vida <= 0) {
       estadoJuego = MaquinaEstados.ESTADO_PERDIDO;
       puntajeFinal();
